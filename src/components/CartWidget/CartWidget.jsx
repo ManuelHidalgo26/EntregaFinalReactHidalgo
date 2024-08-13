@@ -1,10 +1,17 @@
-import './CartWidget.css'
+import './CartWidget.css';
+import { HiShoppingCart } from "react-icons/hi";
+import React, { useState, useEffect } from 'react';
 
-export const CartWidget = () => {
-return (
-    <div className='nav-cart'>
-        <p>10</p>
-    </div>
-    )
-}
+
+const CartWidget = ({ cart = [] }) => {
+    const totalItems = cart.length;
+
+    return (
+        <div className='nav-cart'>
+            <p>{totalItems}</p>
+            <HiShoppingCart />
+        </div>
+    );
+};
+
 export default CartWidget;

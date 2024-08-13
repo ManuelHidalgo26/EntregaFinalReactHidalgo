@@ -1,0 +1,32 @@
+import React from 'react';
+import PropTypes from 'prop-types';
+import './ItemDetail.css';
+import ItemCount from '../ItemCount/ItemCount';
+
+const ItemDetail = ({ producto, onAddToCart }) => {
+    if (!producto) return <div>Loading...</div>;
+
+    return (
+        <div className="item-detail">
+            <img src={producto.imagen} alt={producto.nombre} />
+            <h2>{producto.nombre}</h2>
+            <p>{producto.descripcion}</p>
+            <p>Precio: ${producto.precio}</p>
+            <p>Stock: {producto.stock}</p>
+            <ItemCount stock={producto.stock} onAdd={onAddToCart} />
+        </div>
+    );
+};
+
+ItemDetail.propTypes = {
+    producto: PropTypes.shape({
+        imagen: PropTypes.string.isRequired,
+        nombre: PropTypes.string.isRequired,
+        descripcion: PropTypes.string.isRequired,
+        precio: PropTypes.number.isRequired,
+        stock: PropTypes.number.isRequired,
+    }).isRequired,
+    onAddToCart: PropTypes.func.isRequired,
+};
+
+export default ItemDetail;

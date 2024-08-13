@@ -1,17 +1,29 @@
-import './App.css'
-import Footer from './components/Footer/Footer'
-import Navbar from './components/Navbar/Navbar'
-import ItemListContainer from './components/ItemListContainer/ItemListContainer'
-function App() {
-  return (
-    <>
-    <Navbar/>
-    
-    <ItemListContainer greeting="Bienvenidos a nuestra tienda de Hamburguesas"/>
+import './App.css';
+import Footer from './components/Footer/Footer';
+import Navbar from './components/Navbar/Navbar';
+import ItemListContainer from './components/ItemListContainer/ItemListContainer';
+import ItemDetailContainer from './components/ItemDetailContainer/ItemDetailContainer';
+import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Error from './components/Error/Error';
 
-    <Footer/>
-    </>
-  )
+const App = () => {
+  const [cart, setCart] = useState([]);
+
+  return (
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path='/' element={<ItemListContainer />} />
+        <Route path='/categoria/:categoriaId' element={<ItemListContainer />} />
+        <Route path='/item/:id' element={<ItemDetailContainer />} />
+        <Route path='*' element={<Error />} />
+      </Routes>
+      <Footer />
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
+
+

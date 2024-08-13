@@ -1,7 +1,14 @@
 .presentacion {
     display: flex;
+    text-align: center;
     align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px; 
+    margin-bottom: 0px;
+    justify-content: center;
+    font-size: 40px;
+    padding: 60px 20px; 
     color: red;
+}
+.item-list-container {
+    padding-top: 120px;
+    margin: 0 auto; 
 }

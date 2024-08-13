@@ -4,11 +4,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px; 
+    padding: 16px; 
     position: fixed;
     top: 0;
     left: 0;
-    width: 99%;
+    width: 100%;
+    z-index: 1000;
 }
 
 .navbar-logo {
