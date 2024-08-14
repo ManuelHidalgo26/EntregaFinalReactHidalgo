@@ -2,38 +2,61 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin: 0 auto;
+}
+
+.item-count h1 {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: #333;
 }
 
 .count-controls {
     display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
+    align-items: center;
+    margin: 15px 0;
+    color: #000;
 }
 
 .count-controls button {
-    background-color: #007bff; 
-    border-radius: 5px; 
-    padding: 10px 20px; 
-    cursor: pointer; 
-    font-size: 16px; 
-    transition: background-color 0.3s; 
+    font-size: 18px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    margin: 0 5px;
+    transition: background-color 0.3s ease;
 }
 
 .count-controls button:hover {
-    background-color: #0056b3; 
+    background-color: #0056b3;
+}
+
+.count-controls span {
+    font-size: 18px;
+    margin: 0 10px;
 }
 
 .add-to-cart {
-    background-color: #28a745; 
-    color: white; 
+    font-size: 16px;
+    padding: 10px 20px;
     border: none;
-    border-radius: 5px; 
-    padding: 10px 20px; 
-    cursor: pointer; 
-    font-size: 16px; 
-    transition: background-color 0.3s; 
+    border-radius: 5px;
+    background-color: #28a745;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
 }
 
 .add-to-cart:hover {
-    background-color: #218838; 
+    background-color: #218838;
 }

@@ -1,14 +1,19 @@
+import React, { useState } from 'react';
 import './App.css';
 import Footer from './components/Footer/Footer';
 import Navbar from './components/Navbar/Navbar';
 import ItemListContainer from './components/ItemListContainer/ItemListContainer';
 import ItemDetailContainer from './components/ItemDetailContainer/ItemDetailContainer';
-import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Error from './components/Error/Error';
 
 const App = () => {
   const [cart, setCart] = useState([]);
+
+  const handleAddToCart = (quantity) => {
+  
+    console.log(`Añadido ${quantity} al carrito`);
+  };
 
   return (
     <BrowserRouter>
@@ -25,5 +30,3 @@ const App = () => {
 }
 
 export default App;
-
-

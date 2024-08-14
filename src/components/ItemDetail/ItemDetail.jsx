@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './ItemDetail.css';
 import ItemCount from '../ItemCount/ItemCount';
 
-const ItemDetail = ({ producto, onAddToCart }) => {
-    if (!producto) return <div>Loading...</div>;
+const ItemDetail = ({ producto }) => {
+    const [quantity, setQuantity] = useState(0);
+
+    const handleAdd = (count) => {
+        setQuantity(count);
+            };
 
     return (
         <div className="item-detail">
@@ -13,7 +17,7 @@ const ItemDetail = ({ producto, onAddToCart }) => {
             <p>{producto.descripcion}</p>
             <p>Precio: ${producto.precio}</p>
             <p>Stock: {producto.stock}</p>
-            <ItemCount stock={producto.stock} onAdd={onAddToCart} />
+            <ItemCount stock={producto.stock} onAdd={handleAdd} />
         </div>
     );
 };
@@ -26,7 +30,7 @@ ItemDetail.propTypes = {
         precio: PropTypes.number.isRequired,
         stock: PropTypes.number.isRequired,
     }).isRequired,
-    onAddToCart: PropTypes.func.isRequired,
 };
 
 export default ItemDetail;
+

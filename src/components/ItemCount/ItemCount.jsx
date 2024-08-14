@@ -17,7 +17,7 @@ const ItemCount = ({ stock, onAdd }) => {
     };
 
     const addToCart = () => {
-        onAdd(count); 
+        onAdd(count);
     };
 
     return (
@@ -36,4 +36,7 @@ const ItemCount = ({ stock, onAdd }) => {
 };
 
 export default ItemCount;
+
+
+
 
