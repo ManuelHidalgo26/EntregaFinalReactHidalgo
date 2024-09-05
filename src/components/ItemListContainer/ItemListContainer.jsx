@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import ItemList from '../ItemList/ItemList';
 import './ItemListContainer.css';
 import { useParams } from 'react-router-dom';
+import Spinner from '../Spinner/Spinner';
+import { collection, getDocs, getFirestore, query, where } from "firebase/firestore";
 
 const ItemListContainer = () => {
     const [productos, setProductos] = useState([]);
@@ -11,30 +13,33 @@ const ItemListContainer = () => {
     const greeting = "¡Bienvenido a Gran Burga!";
 
     useEffect(() => {
-        fetch('/productos.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error al cargar los datos');
-                }
-                return response.json();
+        setLoading(true);
+    
+        const db = getFirestore();
+    
+        console.log("categoriaId:", categoriaId); // Verifica qué valor está tomando categoriaId
+    
+        const myProducts = categoriaId
+            ? query(collection(db, "item"), where("categoria", "==", categoriaId))
+            : collection(db, "item");
+    
+        getDocs(myProducts)
+            .then((res) => {
+                const newProducts = res.docs.map((doc) => {
+                    const data = doc.data();
+                    console.log("Producto encontrado:", data); // Muestra cada producto obtenido
+                    return { id: doc.id, ...data };
+                });
+                setProductos(newProducts);
             })
-            .then(data => {
-                if (categoriaId) {
-                    const filteredProducts = data.filter(producto => producto.categoria === categoriaId);
-                    setProductos(filteredProducts);
-                } else {
-                    setProductos(data);
-                }
-                setLoading(false);
+            .catch((error) => {
+                console.log("Error searching items", error);
+                setError(error); 
             })
-            .catch(error => {
-                setError(error);
-                setLoading(false);
-            });
+            .finally(() => setLoading(false));
     }, [categoriaId]);
-
     if (loading) {
-        return <div>Loading...</div>;
+        return <div><Spinner /></div>;
     }
 
     if (error) {
@@ -50,6 +55,7 @@ const ItemListContainer = () => {
 }
 
 export default ItemListContainer;
+
 
 
 

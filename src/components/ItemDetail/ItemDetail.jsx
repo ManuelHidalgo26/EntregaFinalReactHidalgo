@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import './ItemDetail.css';
 import ItemCount from '../ItemCount/ItemCount';
+import { useCart } from '../../Context/CartContext/CartProvider';
 
 const ItemDetail = ({ producto }) => {
     const [quantity, setQuantity] = useState(0);
+    const { addToCart } = useCart(); 
 
     const handleAdd = (count) => {
         setQuantity(count);
-            };
+        addToCart(producto, count); 
+    };
 
     return (
         <div className="item-detail">
@@ -33,4 +36,3 @@ ItemDetail.propTypes = {
 };
 
 export default ItemDetail;
-

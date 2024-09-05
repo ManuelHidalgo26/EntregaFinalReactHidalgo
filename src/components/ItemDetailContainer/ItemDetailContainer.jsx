@@ -1,35 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ItemDetail from '../ItemDetail/ItemDetail';
+import { useCart } from '../../Context/CartContext/CartProvider'; // Importa desde CartContext
+import Spinner from '../Spinner/Spinner'; 
 import './ItemDetailContainer.css';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 
 const ItemDetailContainer = () => {
     const [producto, setProducto] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const { id } = useParams();
+    const { addToCart } = useCart();
 
     useEffect(() => {
-        fetch('/productos.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error al cargar los datos');
+        const db = getFirestore();
+
+        const newDoc = doc(db, "item", id);
+
+        getDoc(newDoc)
+            .then(res => {
+                if (res.exists()) {
+                    const data = res.data();
+                    const newProduct = { id: res.id, ...data }; 
+                    setProducto(newProduct);
+                } else {
+                    setError(new Error('Producto no encontrado'));
                 }
-                return response.json();
             })
-            .then(data => {
-                const producto = data.find(p => p.id === Number(id));
-                setProducto(producto);
-                setLoading(false);
+            .catch(err => {
+                setError(err);
             })
-            .catch(error => {
-                setError(error);
+            .finally(() => {
                 setLoading(false);
             });
     }, [id]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <Spinner />;
     }
 
     if (error) {
@@ -38,11 +46,7 @@ const ItemDetailContainer = () => {
 
     return (
         <div className="item-detail-container">
-            {producto ? (
-                <ItemDetail producto={producto} />
-            ) : (
-                <div>Producto no encontrado</div>
-            )}
+            {producto ? <ItemDetail producto={producto} onAddToCart={addToCart} /> : <div>Producto no encontrado</div>}
         </div>
     );
 };
