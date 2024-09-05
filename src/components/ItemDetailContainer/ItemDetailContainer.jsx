@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ItemDetail from '../ItemDetail/ItemDetail';
-import { useCart } from '../../Context/CartContext/CartProvider'; // Importa desde CartContext
+import { useCart } from '../../Context/CartContext/CartProvider'; 
 import Spinner from '../Spinner/Spinner'; 
 import './ItemDetailContainer.css';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';

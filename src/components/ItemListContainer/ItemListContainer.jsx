@@ -17,7 +17,7 @@ const ItemListContainer = () => {
     
         const db = getFirestore();
     
-        console.log("categoriaId:", categoriaId); // Verifica qué valor está tomando categoriaId
+        console.log("categoriaId:", categoriaId); // probando
     
         const myProducts = categoriaId
             ? query(collection(db, "item"), where("categoria", "==", categoriaId))
@@ -27,7 +27,7 @@ const ItemListContainer = () => {
             .then((res) => {
                 const newProducts = res.docs.map((doc) => {
                     const data = doc.data();
-                    console.log("Producto encontrado:", data); // Muestra cada producto obtenido
+                    console.log("Producto encontrado:", data); // probando
                     return { id: doc.id, ...data };
                 });
                 setProductos(newProducts);

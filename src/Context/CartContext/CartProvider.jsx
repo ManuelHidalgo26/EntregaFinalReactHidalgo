@@ -6,7 +6,7 @@ export const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([]);
 
     const addToCart = (product, quantity) => {
-        console.log('addToCart called:', { product, quantity }); // Log para depuración
+        console.log('addToCart called:', { product, quantity }); // probando
         const existingProduct = cart.find(item => item.id === product.id);
         if (existingProduct) {
             setCart(cart.map(item =>
@@ -17,13 +17,13 @@ export const CartProvider = ({ children }) => {
         } else {
             setCart([...cart, { ...product, quantity }]);
         }
-        console.log('Updated cart:', cart); // Log para depuración
+        console.log('Updated cart:', cart); // probando
     };
 
     const removeFromCart = (productId) => {
-        console.log('removeFromCart called with productId:', productId); // Log para depuración
+        console.log('removeFromCart called with productId:', productId); // probando
         setCart(cart.filter(item => item.id !== productId));
-        console.log('Updated cart:', cart); // Log para depuración
+        console.log('Updated cart:', cart); // probando
     };
 
     return (
