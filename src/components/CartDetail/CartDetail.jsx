@@ -1,14 +1,17 @@
 import React from 'react';
 
 const CartDetail = ({ cart, removeFromCart }) => {
+    if (!cart || cart.length === 0) {
+        return <p>No hay productos en el carrito.</p>; 
+    }
+
     return (
         <div>
             {cart.map(item => (
                 <div key={item.id}>
-                    <h3>{item.name}</h3>
-                    <p>Precio: ${item.price}</p>
-                    <p>Cantidad: {item.quantity}</p>
-                    <p>Subtotal: ${item.price * item.quantity}</p>
+                    <h3>{item.nombre}</h3> 
+                    <p>Cantidad: {item.quantity || 0}</p> 
+                    <p>Precio: ${item.precio ? item.precio.toFixed(2) : '0.00'}</p> 
                     <button onClick={() => removeFromCart(item.id)}>Eliminar</button>
                 </div>
             ))}

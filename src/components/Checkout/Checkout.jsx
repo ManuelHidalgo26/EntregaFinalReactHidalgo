@@ -1,11 +1,13 @@
 import React, { useContext, useState } from 'react';
-import { CartProvider } from '../../Context/CartContext/CartProvider';
 import { useNavigate } from 'react-router-dom';
+import { useCart } from '../../Context/CartContext/CartProvider'; 
+import { getFirestore, collection, addDoc } from 'firebase/firestore';
 
 export const Checkout = () => {
-    const { cart, removeFromCart } = useContext(CartContext);
+    const { cart, removeFromCart } = useCart();
     const [buyer, setBuyer] = useState({ name: '', email: '', phone: '' });
     const [orderId, setOrderId] = useState(null);
+    const [loading, setLoading] = useState(false); 
     const navigate = useNavigate();
 
     const handleInputChange = (e) => {
@@ -15,27 +17,38 @@ export const Checkout = () => {
         });
     };
 
-    const handleCheckout = (e) => {
+    const handleCheckout = async (e) => {
         e.preventDefault();
         if (cart.length === 0) {
             alert('No hay productos en el carrito');
             return;
         }
 
-        
+        setLoading(true); 
+
         const order = {
             buyer,
             items: cart,
-            total: cart.reduce((acc, item) => acc + item.price * item.quantity, 0),
+            total: cart.reduce((acc, item) => acc + (item.precio * item.quantity), 0),
         };
 
-        
-        console.log('Orden generada:', order);
-        setOrderId('12345ABC'); 
-        alert('Compra realizada con éxito. Gracias por tu compra!');
-        
-        cart.forEach(item => removeFromCart(item.id));
-        navigate('/');
+        try {
+            // Guardar la orden en Firestore
+            const db = getFirestore();
+            const ordersCollection = collection(db, "orders");
+            const docRef = await addDoc(ordersCollection, order);
+            setOrderId(docRef.id); 
+            alert('Compra realizada con éxito. Gracias por tu compra!');
+            
+            // Limpiar el carrito
+            cart.forEach(item => removeFromCart(item.id));
+            navigate('/');
+        } catch (error) {
+            console.error("Error al crear la orden:", error);
+            alert("Hubo un problema al procesar tu compra. Intenta nuevamente.");
+        } finally {
+            setLoading(false); 
+        }
     };
 
     return (
@@ -49,11 +62,11 @@ export const Checkout = () => {
                     <ul>
                         {cart.map(item => (
                             <li key={item.id}>
-                                {item.name} x {item.quantity} - ${item.price * item.quantity}
+                                {item.nombre} x {item.quantity} - ${item.precio * item.quantity}
                             </li>
                         ))}
                     </ul>
-                    <h4>Total: ${cart.reduce((acc, item) => acc + item.price * item.quantity, 0)}</h4>
+                    <h4>Total: ${cart.reduce((acc, item) => acc + (item.precio * item.quantity), 0)}</h4>
                     <form onSubmit={handleCheckout}>
                         <div>
                             <label>Nombre:</label>
@@ -85,10 +98,11 @@ export const Checkout = () => {
                                 required
                             />
                         </div>
-                        <button type="submit">Confirmar Compra</button>
+                        <button type="submit" disabled={loading}>Confirmar Compra</button> 
                     </form>
                 </>
             )}
         </div>
     );
 };
+export default Checkout;

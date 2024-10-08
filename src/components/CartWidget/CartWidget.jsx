@@ -1,15 +1,15 @@
-import './CartWidget.css';
+import React from 'react';
 import { HiShoppingCart } from "react-icons/hi";
-import React, { useState, useEffect } from 'react';
+import { useCart } from '../../Context/CartContext/CartProvider'; 
 
-
-const CartWidget = ({ cart = [] }) => {
-    const totalItems = cart.length;
+const CartWidget = () => {
+    const { cart } = useCart(); 
+    const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0); 
 
     return (
         <div className='nav-cart'>
-            <p>{totalItems}</p>
             <HiShoppingCart />
+            {totalItems > 0 && <span>{totalItems}</span>} 
         </div>
     );
 };

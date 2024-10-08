@@ -19,7 +19,9 @@ const Navbar = () => {
                     <li><Link to="/categoria/Papas">Papas</Link></li>
                 </ul>
             </div>
-            <CartWidget />
+            <div className="navbar-cart">
+                <Link to="/cart"><CartWidget /></Link> 
+            </div>
         </nav>
     );
 };
